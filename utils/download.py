@@ -29,14 +29,14 @@ def download_raster(rnge, is_dsm=True):
         if r.status_code != 200:
             print(url)
             raise Exception(f"Status code is {r.status_code}")
-        with open(path, "wb") as f:
-            f.write(r.content)
-        extract_raster(
-            zp=path,
-            fp=f"GeoTIFF/DHMVII{'DSM' if is_dsm else 'DTM'}RAS1m_k{i:02d}.tif",
-            filename=f"DHMVII{'DSM' if is_dsm else 'DTM'}RAS1m_k{i:02d}.tif",
-            is_dsm=is_dsm
-        )
+            with open(path, "wb") as f:
+                f.write(r.content)
+            extract_raster(
+                zp=path,
+                fp=f"GeoTIFF/DHMVII{'DSM' if is_dsm else 'DTM'}RAS1m_k{i:02d}.tif",
+                filename=f"DHMVII{'DSM' if is_dsm else 'DTM'}RAS1m_k{i:02d}.tif",
+                is_dsm=is_dsm
+            )
 
 
 class RasterDownload(Thread):
@@ -58,12 +58,22 @@ if __name__ == "__main__":
 
     for rng in rgs:
         t_dsm = RasterDownload(rng)
-        t_dst = RasterDownload(rng, is_dsm=False)
         t_dsm.start()
-        t_dst.start()
-        threads.extend([t_dsm, t_dst])
+        threads.append(t_dsm)
 
     for thread in threads:
         thread.join()
 
-    print("Done!")
+    print("Done with DSM")
+
+    threads.clear()
+
+    for rng in rgs:
+        t = RasterDownload(rng, is_dsm=False)
+        t.start()
+        threads.append(t)
+
+    for thread in threads:
+        thread.join()
+
+    print("Done with DTM")
