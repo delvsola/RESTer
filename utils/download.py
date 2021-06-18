@@ -51,8 +51,7 @@ class RasterDownload(Thread):
 
 if __name__ == "__main__":
     rgs = [
-        range(1,22),
-        range(22, 44)
+        range(1, 44),
     ]
 
     threads = []
