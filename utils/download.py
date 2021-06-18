@@ -1,7 +1,7 @@
 import requests
 from zipfile import ZipFile
 from threading import Thread
-
+import os
 
 def extract_raster(zp: str, fp: str, filename: str, is_dsm: bool = True):
     with ZipFile(zp) as z:
@@ -11,6 +11,12 @@ def extract_raster(zp: str, fp: str, filename: str, is_dsm: bool = True):
 
 
 def download_raster(rnge, is_dsm=True):
+    # Check for dirs and create if needed to avoid crashes
+    if not os.path.exists("static/dsm"):
+        os.makedirs("static/dsm")
+    if not os.path.exists("static/dtm"):
+        os.makedirs("static/dtm")
+
     for i in rnge:
         if is_dsm:
             url = f"https://downloadagiv.blob.core.windows.net/dhm-vlaanderen-ii-dsm-raster-1m/DHMVIIDSMRAS1m_k{i:02d}.zip"
