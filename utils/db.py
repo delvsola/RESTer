@@ -37,4 +37,5 @@ def create_references():
 
 
 if __name__ == "__main__":
+    init_db()
     create_references()
