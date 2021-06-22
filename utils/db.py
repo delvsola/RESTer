@@ -1,7 +1,7 @@
 import sqlite3
 from osgeo import gdal
 import os
-from shapely.geometry import Point
+
 
 DB_NAME = "db.sqlite3"
 
@@ -37,6 +37,26 @@ def create_references():
                         """
                         cur.execute(query, (ulx, uly, lrx, lry))
                         print(f"Added {path} reference to database")
+
+
+def match_geotiff(x: float, y: float) -> [int, None]:
+    """
+    Takes coordinates and returns in which .tif the coordinates are
+    :param x: a float representing the X position
+    :param y: a float representing the Y position
+    :return: Returns the number of the .tif file or None if not found
+    """
+    with sqlite3.connect(DB_NAME) as db:
+        with db as cur:
+            query = """SELECT id FROM reference 
+            WHERE ulx <= ? AND ? <= lrx AND uly >= ? AND ? >= lry
+            """
+            res = cur.execute(query, (x, x, y, y))
+            fetch = res.fetchone()
+            if fetch:
+                return fetch[0]
+            else:
+                return None
 
 
 if __name__ == "__main__":
