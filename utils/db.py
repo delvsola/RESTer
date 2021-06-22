@@ -21,7 +21,7 @@ def init_db():
 def create_references():
     with sqlite3.connect(DB_NAME) as db:
         for root, dirs, files in os.walk("./static/dsm/"):
-            for file in files:
+            for file in sorted(files):
                 if file.endswith(".tif"):
                     path = os.path.join(root, file)
                     src = gdal.Open(path)
