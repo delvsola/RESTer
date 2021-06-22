@@ -28,7 +28,6 @@ def create_references():
                     ulx, xres, xskew, uly, yskew, yres = src.GetGeoTransform()
                     lrx = ulx + (src.RasterXSize * xres)
                     lry = uly + (src.RasterYSize * yres)
-                    print((ulx, uly, lrx, lry))
                     with db as cur:
                         query = """INSERT INTO reference (ulx, uly, lrx, lry)
                         VALUES(?, ?, ?, ?)
