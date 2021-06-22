@@ -1,6 +1,7 @@
 import sqlite3
 from osgeo import gdal
 import os
+from shapely.geometry import Point
 
 DB_NAME = "db.sqlite3"
 
@@ -24,10 +25,12 @@ def create_references():
             for file in sorted(files):
                 if file.endswith(".tif"):
                     path = os.path.join(root, file)
-                    src = gdal.Open(path)
-                    ulx, xres, xskew, uly, yskew, yres = src.GetGeoTransform()
-                    lrx = ulx + (src.RasterXSize * xres)
-                    lry = uly + (src.RasterYSize * yres)
+                    options = {
+                        "format": "json"
+                    }
+                    infos = gdal.Info(path, **options)
+                    ulx, uly = infos["cornerCoordinates"]["upperLeft"]
+                    lrx, lry = infos["cornerCoordinates"]["lowerRight"]
                     with db as cur:
                         query = """INSERT INTO reference (ulx, uly, lrx, lry)
                         VALUES(?, ?, ?, ?)
