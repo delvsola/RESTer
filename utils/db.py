@@ -11,10 +11,10 @@ def init_db():
         with db as cur:
             query = """CREATE TABLE IF NOT EXISTS reference (
                 id INTEGER PRIMARY KEY,
-                ulx INTEGER,
-                uly INTEGER,
-                lrx INTEGER,
-                lry INTEGER
+                ulx REAL,
+                uly REAL,
+                lrx REAL,
+                lry REAL
             )"""
             cur.execute(query)
 
