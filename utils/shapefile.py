@@ -3,7 +3,7 @@ from shapely.geometry import Point
 from typing import Tuple
 
 
-def get_bbox(pt: Point) -> [Tuple, None]:
+def get_bbox(pt: Point) -> [Tuple[Point], None]:
     """
     Get the bounding box of a building on a Point
     :param pt: Shapely point with the coordinates of the building
@@ -15,4 +15,6 @@ def get_bbox(pt: Point) -> [Tuple, None]:
     if len(shape) == 0:
         return None
     bounds = shape.bounds
-    return bounds.minx, bounds.maxy, bounds.maxx, bounds.miny
+    ul = Point(bounds.minx, bounds.maxy)
+    lr = Point(bounds.maxx, bounds.miny)
+    return ul, lr
