@@ -3,11 +3,11 @@ from shapely.geometry import Point
 import numpy
 
 
-def slice_tif(fp: str, ul: Point, lr: Point) -> numpy.ndarray:
+def slice_tif(fp: str, ul: Point, lr: Point, pad: float = 5.0) -> numpy.ndarray:
     gdal_options = {
         "destName": "",
         "format": "MEM",
-        "projWin": [ul.x, ul.y, lr.x, lr.y]
+        "projWin": [ul.x-pad, ul.y+pad, lr.x+pad, lr.y-pad]
 
     }
     ds = gdal.Translate(
