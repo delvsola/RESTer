@@ -1,5 +1,5 @@
 import geopandas as gpd
-from shapely.geometry import Point, Polygon, MultiPolygon
+from shapely.geometry import Point
 from typing import Tuple
 
 
