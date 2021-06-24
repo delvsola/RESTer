@@ -10,7 +10,7 @@ def get_bbox(pt: Point) -> [Tuple[Point], None]:
     :return: A tuple with Upper-Left and Lower-Right coordinates of the box or
     None if no building found
     """
-    shape = gpd.read_file('./shapefile/Bpn_ReBu.shp',
+    shape = gpd.read_file('static/shapefile/Bpn_ReBu.shp',
                           mask=pt)
     if len(shape) == 0:
         return None
