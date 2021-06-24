@@ -19,7 +19,6 @@ def get_raster():
         address = request.args.get('address', '')
         address_coord = geocode(address)
         tif_id = match_geotiff(address_coord)
-        print(tif_id)
         bbox = get_bbox(address_coord)
         if bbox:
             ul = bbox[0]
