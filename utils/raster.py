@@ -7,7 +7,7 @@ def slice_tif(fp: str, ul: Point, lr: Point) -> numpy.ndarray:
     gdal_options = {
         "destName": "",
         "format": "MEM",
-        "projWin": [ul.x, ul.x, lr.x, lr.y]
+        "projWin": [ul.x, ul.y, lr.x, lr.y]
 
     }
     ds = gdal.Translate(
